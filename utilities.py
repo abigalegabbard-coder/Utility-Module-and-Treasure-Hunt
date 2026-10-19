@@ -1,68 +1,83 @@
 import os
 import time
 
-
-def get_non_empty_string(prompt):
+def getNonEmptyString(prompt):
     """Rejects empty/whitespace only input, and returns the trimmed string"""
     while True:
-        user_resp = input(prompt).strip()
+        user_resp = input(prompt).strip().title()
         if user_resp == "":
             print("Enter something next time")
         else:
             return user_resp
 
-def print_numbered_list(items):
-    """Prints items numbered from 1, for an empty list, print 'no items to display'"""
-    return 
+def printNumberedList(items):
+    """Print items numbered from 1, or a message if empty."""
+    if len(items) == 0:
+        print("No items to display.")
+    else:
+        number = 1
+        for item in items:
+            print(f"{number}. {item}")
+            number += 1
 
-def get_valid_int(prompt, min=0, max=100):
-    """Repeats until a valid integer within the range is entered, and returns the integer"""
-    if prompt == 1:
-        pass
-    elif prompt == 2:
-        pass
-    elif prompt == 3:
-        pass
+def getValidInt(prompt, min=0, max=100):
+    """Get an integer within the inclusive minimum and maximum range."""
+    while True:
+        user_response = input(prompt).strip()
+        if user_response.isdigit():
+            user_number = int(user_response)
+            if min <= user_number <= max:
+                    return int(user_response)
+            else:
+                print(f"Invalid")
+                user_response = input(prompt).strip()
+        else:
+            print("Invalid input. Please enter a whole number.")
+            user_response = input(prompt).strip()
 
-def clear_screen():
+def clearScreen():
     """Clear the window's console"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def pause(message = input("Press enter to continue...")):
+def pause(message = "Press enter to continue..."):
     """Shows the message and wait for enter"""
-    #make it show the message
-    if message == "":
-        time.sleep(1.5)
+    input(message)
 
 
-def get_valid_response(prompt, validResponses):
-    """Repeats until an accepted responce is entered, ignores case and surrounding spaces, and returns the lowercase input"""
-    #add in main for it to give it back in lowercase, and then also make the prompt an input and make it ask for whatever
+def getValidResponse(prompt, validResponses):
+    """Get an accepted response, ignoring case and spaces."""
+    valid_responses = [response.lower().strip() for response in validResponses]
     while True:
-        resp = input(prompt).strip().lower()
-        if resp in validResponses: #if resp in validResponses
-            return resp
+        response = input(prompt).strip().lower()
+        if response == "y":
+            pass
+        elif response == "n":
+            clearScreen()
+            break
         else:
-            print("Enter a given response")
+            print("Enter one of the given responses.")
 
-def filter_by_length(items, minLength, maxLength):
-    """Uses list comprehension to return strinfs with lengths in the inclusive range, preserving order"""
-    pass
 
-def analyze_numbers(numbers):
-    """
-    Uses list comprehension to collect positive numbers. 
-    Return four values: positive-number list, positive count, negative count, zero count
-    """
-    pass
+def filterByLength(items, minLength, maxLength):
+    """Returns strings with the lengths in the inclusive range, preserving order"""
+    return [item for item in items if minLength <= len(item) <= maxLength]
+
+def analyzeNumbers(numbers):
+    """Return positive numbers and positive, negative, and zero counts."""
+    positive_numbers = [number for number in numbers if number > 0]
+    positive_count = len(positive_numbers)
+    negative_count = len([number for number in numbers if number < 0])
+    zero_count = len([number for number in numbers if number == 0])
+    return positive_numbers, positive_count, negative_count, zero_count
 
 def main():
-    get_valid_int(prompt, min=0, max=100)
-    get_valid_response("Enter an y to continue, or n to quit: ", validResponses=["y","n"])
-    get_non_empty_string("Enter your name: ")
-    clear_screen()
+    """Gathers everything together"""
     pause(message="Press enter to continue...")
-    print_numbered_list(items)
+    getNonEmptyString("Enter your name: ")
+    printNumberedList([])
+    getValidInt("Enter your choice (1-3): ", min=0, max=100)
+    analyzeNumbers()
+    getValidResponse("Enter an y to continue, or n to quit: ", validResponses=["y","n"])
 
 if __name__ == "__main__":
     main()
