@@ -46,13 +46,12 @@ def pause(message = "Press enter to continue..."):
 
 def getValidResponse(prompt, validResponses):
     """Get an accepted response, ignoring case and spaces."""
-    valid_responses = [response.lower().strip() for response in validResponses]
+    validResponses = [response.lower().strip() for response in validResponses]
     while True:
         response = input(prompt).strip().lower()
         if response == "y":
-            pass
-        elif response == "n":
             clearScreen()
+        elif response == "n":
             break
         else:
             print("Enter one of the given responses.")
@@ -68,7 +67,7 @@ def analyzeNumbers(numbers):
     positive_count = len(positive_numbers)
     negative_count = len([number for number in numbers if number < 0])
     zero_count = len([number for number in numbers if number == 0])
-    return positive_numbers, positive_count, negative_count, zero_count
+    return positive_count, negative_count, zero_count
 
 def main():
     """Gathers everything together"""
